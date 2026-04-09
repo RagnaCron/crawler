@@ -6,4 +6,4 @@ Learning Goals
 - Learn how to parse HTML with Golang
 - Practice unit testing
 
-Course URL (Build a Web Scraper in Go)[https://www.boot.dev/courses/build-web-scraper-golang]
+Course URL [Build a Web Scraper in Go](https://www.boot.dev/courses/build-web-scraper-golang)
