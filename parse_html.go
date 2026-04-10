@@ -14,7 +14,7 @@ func getHeadingFromHTML(html string) string {
 		return ""
 	}
 
-	return doc.Find("h1, h2").First().Text()
+	return strings.TrimSpace(doc.Find("h1, h2").First().Text())
 }
 
 func getFirstParagraphFromHTML(html string) string {

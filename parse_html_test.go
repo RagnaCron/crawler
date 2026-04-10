@@ -32,7 +32,6 @@ func TestGetHeadingFromHTML(t *testing.T) {
 			}
 		})
 	}
-
 }
 
 func TestGetFirstParagraphFromHTMLMainPriority(t *testing.T) {
