@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/url"
 )
 
@@ -14,29 +13,35 @@ type PageData struct {
 }
 
 func extractPageData(html, pageURL string) PageData {
-	var data PageData
-	u, err := url.Parse(pageURL)
+	heading := getHeadingFromHTML(html)
+	firstParagraph := getFirstParagraphFromHTML(html)
+
+	parsedURL, err := url.Parse(pageURL)
 	if err != nil {
-		log.Fatalln(err)
+		return PageData{
+			URL:            pageURL,
+			Heading:        heading,
+			FirstParagraph: firstParagraph,
+			OutgoingLinks:  nil,
+			ImageURLs:      nil,
+		}
 	}
 
-	urls, err := getURLsFromHTML(html, u)
+	outgoingLinks, err := getURLsFromHTML(html, parsedURL)
 	if err != nil {
-		log.Fatalln(err)
+		outgoingLinks = nil
 	}
 
-	imageUrls, err := getImagesFromHTML(html, u)
+	imageURLs, err := getImagesFromHTML(html, parsedURL)
 	if err != nil {
-		log.Fatalln(err)
+		imageURLs = nil
 	}
 
-	data = PageData{
+	return PageData{
 		URL:            pageURL,
-		Heading:        getHeadingFromHTML(html),
-		FirstParagraph: getFirstParagraphFromHTML(html),
-		OutgoingLinks:  urls,
-		ImageURLs:      imageUrls,
+		Heading:        heading,
+		FirstParagraph: firstParagraph,
+		OutgoingLinks:  outgoingLinks,
+		ImageURLs:      imageURLs,
 	}
-
-	return data
 }
