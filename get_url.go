@@ -13,7 +13,7 @@ func getURLsFromHTML(htmlBody string, baseURL *url.URL) ([]string, error) {
 		return nil, err
 	}
 
-	urls := make([]string, 0)
+	var urls []string
 
 	doc.Find("a[href]").Each(func(i int, s *goquery.Selection) {
 		href, exists := s.Attr("href")
