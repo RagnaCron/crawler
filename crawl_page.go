@@ -3,16 +3,7 @@ package main
 import (
 	"fmt"
 	"net/url"
-	"sync"
 )
-
-type config struct {
-	pages              map[string]PageData
-	baseURL            *url.URL
-	mu                 *sync.Mutex
-	concurrencyControl chan struct{}
-	wg                 *sync.WaitGroup
-}
 
 func (cfg *config) crawlPage(rawCurrentURL string) {
 	cfg.concurrencyControl <- struct{}{}
@@ -20,6 +11,10 @@ func (cfg *config) crawlPage(rawCurrentURL string) {
 		<-cfg.concurrencyControl
 		cfg.wg.Done()
 	}()
+
+	if cfg.getPageLen() >= cfg.maxPages {
+		return
+	}
 
 	currentURL, err := url.Parse(rawCurrentURL)
 	if err != nil {
@@ -75,4 +70,10 @@ func (cfg *config) setPage(nURL string, page PageData) {
 	cfg.mu.Lock()
 	defer cfg.mu.Unlock()
 	cfg.pages[nURL] = page
+}
+
+func (cfg *config) getPageLen() int {
+	cfg.mu.Lock()
+	defer cfg.mu.Unlock()
+	return len(cfg.pages)
 }
