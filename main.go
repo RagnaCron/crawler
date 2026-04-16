@@ -37,7 +37,8 @@ func main() {
 	cfg.wg.Add(1)
 	cfg.crawlPage(baseURL)
 	cfg.wg.Wait()
-	// for k, v := range pages {
-	// 	fmt.Printf("%d - %s\n", v, k)
-	// }
+
+	for normalizedURL := range cfg.pages {
+		fmt.Printf("found: %s\n", normalizedURL)
+	}
 }
