@@ -30,10 +30,11 @@ func main() {
 		pages:              make(map[string]PageData),
 		baseURL:            parsedURL,
 		mu:                 &sync.Mutex{},
-		concurrencyControl: make(chan struct{}, 1),
+		concurrencyControl: make(chan struct{}, 5),
 		wg:                 &sync.WaitGroup{},
 	}
 
+	cfg.wg.Add(1)
 	cfg.crawlPage(baseURL)
 	cfg.wg.Wait()
 	// for k, v := range pages {
