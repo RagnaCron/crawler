@@ -48,6 +48,7 @@ func (cfg *config) crawlPage(rawCurrentURL string) {
 	cfg.setPage(nCurURL, page)
 
 	for _, url := range page.OutgoingLinks {
+		fmt.Printf("Crawling %s\n", url)
 		cfg.wg.Add(1)
 		go cfg.crawlPage(url)
 	}

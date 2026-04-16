@@ -29,7 +29,7 @@ func getHTML(rawURL string) (string, error) {
 
 	contentType := res.Header.Get("Content-Type")
 	if !strings.Contains(contentType, "text/html") {
-		return "", fmt.Errorf("wrong content type, got: %v, expected: text/html")
+		return "", fmt.Errorf("wrong content type, got: %v, expected: text/html", contentType)
 	}
 
 	data, err := io.ReadAll(res.Body)
